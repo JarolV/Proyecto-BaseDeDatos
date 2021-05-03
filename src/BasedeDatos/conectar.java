@@ -1,4 +1,4 @@
-package claseConectar;
+package BasedeDatos;
 
 import java.sql.*;
 import javax.swing.*;
@@ -8,7 +8,7 @@ Connection conect = null;
     {
       try {
            Class.forName("com.mysql.jdbc.Driver");
-           conect = DriverManager.getConnection("jdbc:mysql://localhost/tienda","root","");
+           conect = DriverManager.getConnection("jdbc:mysql://localhost/ventasDB","root","");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Error "+e);
         }

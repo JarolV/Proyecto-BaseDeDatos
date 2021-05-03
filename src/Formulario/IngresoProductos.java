@@ -10,7 +10,7 @@
  */
 package Formulario;
 
-import claseConectar.conectar;
+import BasedeDatos.conectar;
 import java.sql.*;
 import java.util.logging.*;
 import javax.swing.JOptionPane;
@@ -39,6 +39,8 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
     btnnuevo.setEnabled(true);
     btncancelar.setEnabled(false);
     btnactualizar.setEnabled(false);
+    btnelegir.setEnabled(false);
+    txtNit.setEnabled(false);
     
     }
     void limpiar(){
@@ -46,24 +48,25 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
     txtdes.setText("");
     txtpre.setText("");
     txtstock.setText("");
+    txtNit.setText("");
     }
     void desbloquear(){
     txtcod.setEnabled(true);
     txtdes.setEnabled(true);
     txtpre.setEnabled(true);
     txtstock.setEnabled(true);
-    
     btnguardar.setEnabled(true);
     btnnuevo.setEnabled(false);
     btncancelar.setEnabled(true);
+    btnelegir.setEnabled(true);
     }
     void cargar(String valor) {
         try{
-            String [] titulos={"Codigo","Descripcion","Precio","Stock"};
-            String [] registros= new String[4];
+            String [] titulos={"Codigo","Descripcion","Precio","Stock","Distribuidor(Cedula/Nit)"};
+            String [] registros= new String[5];
             model=new DefaultTableModel(null,titulos);
             
-            String cons="select * from producto WHERE CONCAT (descripcion,'',precio) LIKE '%"+valor+"%'";
+            String cons="select * from producto";
             Statement st= cn.createStatement();
             ResultSet rs = st.executeQuery(cons);
             while(rs.next()){
@@ -71,7 +74,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                 registros[1]=rs.getString(2);
                 registros[2]=rs.getString(3);
                 registros[3]=rs.getString(4);
-                
+                registros[4]=rs.getString(5);
                 model.addRow(registros);      
                 }
             tbproductos.setModel(model);
@@ -174,6 +177,9 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
         txtpre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtstock = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        btnelegir = new javax.swing.JButton();
+        txtNit = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnnuevo = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
@@ -255,6 +261,21 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setText("Distribuidor");
+
+        btnelegir.setText("...");
+        btnelegir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnelegirActionPerformed(evt);
+            }
+        });
+
+        txtNit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -265,14 +286,22 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtpre, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtdes, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnelegir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNit))
+                    .addComponent(txtstock)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtdes, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                            .addComponent(txtpre)
+                            .addComponent(txtcod))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,10 +319,14 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtpre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(btnelegir)
+                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -360,7 +393,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                 .addComponent(btncancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnsalir)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         tbproductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -410,7 +443,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                         .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 329, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -506,19 +539,21 @@ private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
 // TODO add your handling code here:
-    String cod,des,pre,stock;
+    String cod,des,pre,stock,Nit;
             String sql="";
             cod=txtcod.getText();
             des=txtdes.getText();
             pre=txtpre.getText();
             stock=txtstock.getText();
-            sql="INSERT INTO producto (cod_pro,descripcion,precio,Stock) VALUES (?,?,?,?)";
+            Nit=txtNit.getText();
+            sql="INSERT INTO producto (cod_pro,descripcion,precio,Stock,Nit) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement pst  = cn.prepareStatement(sql);
             pst.setString(1, cod);
             pst.setString(2, des);
             pst.setString(3, pre);
             pst.setString(4, stock);
+            pst.setString(5,Nit);
             int n=pst.executeUpdate();
             if(n>0){
             JOptionPane.showMessageDialog(null, "Registro Guardado con Exito");
@@ -570,10 +605,22 @@ private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
 }//GEN-LAST:event_txtstockActionPerformed
 
+    private void btnelegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnelegirActionPerformed
+    Distribuidores dis = new Distribuidores();
+    Principal.jdpescritorio.add(dis);
+    dis.toFront();
+    dis.setVisible(true);  
+    }//GEN-LAST:event_btnelegirActionPerformed
+
+    private void txtNitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNitActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btncancelar;
+    private javax.swing.JButton btnelegir;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnnuevo;
     private javax.swing.JButton btnsalir;
@@ -583,6 +630,7 @@ private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
@@ -592,6 +640,7 @@ private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JMenuItem mnactualizar;
     private javax.swing.JMenuItem mneliminar;
     private javax.swing.JTable tbproductos;
+    public static javax.swing.JTextField txtNit;
     private javax.swing.JTextField txtbuscar;
     private javax.swing.JTextField txtcod;
     private javax.swing.JTextField txtdes;

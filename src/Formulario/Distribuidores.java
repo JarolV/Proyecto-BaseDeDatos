@@ -22,39 +22,37 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Administrador
  */
-public class clientes extends javax.swing.JInternalFrame {
+public class Distribuidores extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
 
     /** Creates new form clientes */
-    public clientes() {
+    public Distribuidores() {
         initComponents();
         mostrarclientes("");
     }
    
     void mostrarclientes(String valor)
     {
-        String[]titulos={"Cedula","Nombres","Apellidos","Sexo","Telefono","Email","Direccion"} ;  
+        String[]titulos={"Cedula/Nit","Nombre","Comercio","Telefono","Direccion"} ;  
         String []Registros= new String[9];
         modelo=new DefaultTableModel(null,titulos);
-        String Sql="SELECT * FROM cliente WHERE CONCAT(cedula,nom_cli,ape_cli) LIKE '%"+valor+"%'";
+        String Sql="SELECT * FROM distribuidores";
        
         try {
              Statement st = cn.createStatement();
              ResultSet rs = st.executeQuery(Sql);
              while(rs.next())
              {
-                 Registros[0]=rs.getString("cedula");  
-                 Registros[1]=rs.getString("nom_cli");  
-                 Registros[2]=rs.getString("ape_cli");  
-                 Registros[3]=rs.getString("sexo_cli");  
-                 Registros[4]=rs.getString("tel_cli");  
-                 Registros[5]=rs.getString("email_cli");  
-                 Registros[6]=rs.getString("dir_cli");  
+                 Registros[0]=rs.getString("Nit");  
+                 Registros[1]=rs.getString("nombre");  
+                 Registros[2]=rs.getString("comercio");  
+                 Registros[3]=rs.getString("telefono");  
+                 Registros[4]=rs.getString("direccion");  
                  modelo.addRow(Registros);
              } 
              tbclientes.setModel(modelo);
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Distribuidores.class.getName()).log(Level.SEVERE, null, ex);
         }
        
         
@@ -92,9 +90,9 @@ public class clientes extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("CLIENTES");
+        setTitle("Distribuidores");
 
-        jLabel1.setText("Buscar Cliente:");
+        jLabel1.setText("Buscar Distribuidor:");
 
         btnbus.setText("Mostrar Todo");
         btnbus.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +126,7 @@ public class clientes extends javax.swing.JInternalFrame {
         tbclientes.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(tbclientes);
 
-        Btnregistrar.setText("Registrar Clientes");
+        Btnregistrar.setText("Registrar Distribuidor");
         Btnregistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnregistrarActionPerformed(evt);
@@ -204,26 +202,17 @@ private void txtbusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_t
 
 private void mnenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnenviarActionPerformed
 // TODO add your handling code here:
-    String cod="",nom="",ape="",dni="",dir="",ruc="";
+    String Nit="";
     int fila = tbclientes.getSelectedRow();
     try {
         if(fila==-1)
         {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun dato");
-                  
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun dato");      
         }
         else
         {
-         cod =  (String)tbclientes.getValueAt(fila, 0);
-         nom =  (String)tbclientes.getValueAt(fila, 1);
-         ape =  (String)tbclientes.getValueAt(fila, 2);
-         dir=  (String)tbclientes.getValueAt(fila, 5);
-         Factura.txtcod.setDisabledTextColor(Color.blue);
-         Factura.txtcod.setText(cod);
-         Factura.txtnomape.setDisabledTextColor(Color.blue);
-         Factura.txtnomape.setText(nom+"   "+ape);
-         Factura.txtdir.setDisabledTextColor(Color.blue);
-         Factura.txtdir.setText(dir);
+         Nit =  (String)tbclientes.getValueAt(fila, 0);
+         IngresoProductos.txtNit.setText(Nit);
          this.dispose();
          
         }
@@ -234,7 +223,7 @@ private void mnenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void BtnregistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnregistrarActionPerformed
 // TODO add your handling code here:
     try {
-        IngresoCliente ingcli= new IngresoCliente();
+        IngresoDistribuidores ingcli= new IngresoDistribuidores();
         Principal.jdpescritorio.add(ingcli);
         ingcli.toFront();
         ingcli.setVisible(true);

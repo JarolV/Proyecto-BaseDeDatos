@@ -1,6 +1,6 @@
 package Formulario;
 
-import claseConectar.conectar;
+import BasedeDatos.conectar;
 import java.awt.Color;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -19,36 +19,28 @@ public class Factura extends javax.swing.JInternalFrame {
         this.setLocation(25,15 );
         txtfac.setEnabled(false);
         txtfec.setEnabled(false);
-        txtfec.setDisabledTextColor(Color.blue);
+        txtfec.setDisabledTextColor(Color.red);
         txtfec.setText(fechaactual());       
-        numeros();
-       
-      
-        
+        numeros();  
     }
-          void descontarstock(String codi,String can)
-    {
-       int des = Integer.parseInt(can);
-       String cap="";
-       int desfinal;
-       String consul="SELECT * FROM producto WHERE  cod_pro='"+codi+"'";
+    void descontarstock(String codi,String can){
         try {
+            int des = Integer.parseInt(can);
+            String cap="";
+            int desfinal;
+            String consul="SELECT * FROM producto WHERE  cod_pro='"+codi+"'";
             Statement st= cn.createStatement();
             ResultSet rs= st.executeQuery(consul);
             while(rs.next())
             {
                 cap= rs.getString(4);
             }
-            
-            
-        } catch (Exception e) {
-        }
-        desfinal=Integer.parseInt(cap)-des;
-        String modi="UPDATE producto SET Stock='"+desfinal+"' WHERE cod_pro = '"+codi+"'";
-        try {
+            desfinal=Integer.parseInt(cap)-des;
+            String modi="UPDATE producto SET Stock='"+desfinal+"' WHERE cod_pro = '"+codi+"'";
             PreparedStatement pst = cn.prepareStatement(modi);
             pst.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
         }       
     }
      void numeros()
@@ -57,19 +49,13 @@ public class Factura extends javax.swing.JInternalFrame {
         int cont=1;
         String num="";
         String c="";
-         String SQL="select max(num_fac) from factura";
-       // String SQL="select count(*) from factura";
-        //String SQL="SELECT MAX(cod_emp) AS cod_emp FROM empleado";
-        //String SQL="SELECT @@identity AS ID";
+        String SQL="select max(num_fac) from factura";
         try {
             Statement st = cn.createStatement();
             ResultSet rs=st.executeQuery(SQL);
-            if(rs.next())
-            {              
+            if(rs.next()){              
                  c=rs.getString(1);
             }
-    
-           
             if(c==null){
                 txtfac.setText("00000001");
             }
@@ -77,17 +63,14 @@ public class Factura extends javax.swing.JInternalFrame {
                  j=Integer.parseInt(c);
                  GenerarNumero gen= new GenerarNumero();
                  gen.generar(j);
-                 txtfac.setText(gen.serie());
-                
-            
+                 txtfac.setText(gen.serie());     
             }
         } catch (SQLException ex) {
            Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    void calcular()
-    {
+    public void calcular(){
         String pre;
         String can;
         double igv=0;
@@ -99,15 +82,14 @@ public class Factura extends javax.swing.JInternalFrame {
         
         for(int i=0;i<tbdet.getRowCount();i++)
         {
-            pre=tbdet.getValueAt(i, 2).toString();
-            can=tbdet.getValueAt(i, 3).toString();
+            pre=tbdet.getValueAt(i,2).toString();
+            can=tbdet.getValueAt(i,3).toString();
             precio=Double.parseDouble(pre);
             cantidad=Integer.parseInt(can);
             imp=precio*cantidad;
             subtotal=subtotal+imp;
             igv=subtotal*0.18;
             total=subtotal+igv;
-            
             tbdet.setValueAt(Math.rint(imp*100)/100, i, 4);
             
         }
@@ -611,10 +593,7 @@ private void btnclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     clientes cli = new clientes();
     Principal.jdpescritorio.add(cli);
     cli.toFront();
-    cli.setVisible(true);
-    
-  
-    
+    cli.setVisible(true);  
 }//GEN-LAST:event_btnclientesActionPerformed
 
 private void btnproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnproductosActionPerformed
@@ -653,20 +632,27 @@ private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
 // TODO add your handling code here:
-  if((txtcod.getText().equals("")) || (txtsubtotal.getText().equals("")))
-  {
-      JOptionPane.showMessageDialog(this, "No ingreso cliente,productos o realice operacion");
-  }
-  else
-  {
-    String capcod="",capcan="";
-    for(int i=0;i<Factura.tbdet.getRowCount();i++)
+    if(tbdet.getRowCount()<1)
     {
-        capcod=Factura.tbdet.getValueAt(i, 0).toString();
-        capcan=Factura.tbdet.getValueAt(i, 3).toString();
-        descontarstock(capcod, capcan);
-        
+        JOptionPane.showMessageDialog(this, "Error, no ingreso ningun producto");
     }
+    else{
+    calcular();
+    }
+    if((txtcod.getText().equals("")) || (txtsubtotal.getText().equals("")))
+    {
+        JOptionPane.showMessageDialog(this, "No ingreso cliente,productos o realice operacion");
+    }
+    else
+    {
+      String capcod="",capcan="";
+      for(int i=0;i<Factura.tbdet.getRowCount();i++)
+      {
+          capcod=Factura.tbdet.getValueAt(i, 0).toString();
+          capcan=Factura.tbdet.getValueAt(i, 3).toString();
+          descontarstock(capcod, capcan);
+
+      }
     factura();
     detallefactura();
     

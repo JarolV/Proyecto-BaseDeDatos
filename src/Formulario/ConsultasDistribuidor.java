@@ -6,37 +6,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-public class ConsultasClientes extends javax.swing.JInternalFrame {
+public class ConsultasDistribuidor extends javax.swing.JInternalFrame {
  
-    public ConsultasClientes() {
+    public ConsultasDistribuidor() {
         initComponents();
         Cargarlistaclientes();
     }
     void Cargarlistaclientes(){
         DefaultTableModel modelo= new DefaultTableModel();
-        String []Titulos = {"CEDULA","NOMBRES","APELLIDOS","SEXO","TELEFONO","EMAIL","DIRECCION"};
+        String []Titulos = {"CEDULA/NIT","NOMBRE","COMERCIO","TELEFONO","DIRECCION"};
         modelo.setColumnIdentifiers(Titulos);
         this.tbclientes.setModel(modelo);
         try { 
-            String ConsultaSQL="SELECT * FROM cliente";
-            String []registros= new String[9];
+            String ConsultaSQL="SELECT * FROM distribuidores";
+            String []registros= new String[5];
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(ConsultaSQL);
             while(rs.next()){
-                registros[0]=rs.getString("cedula");
-                registros[1]=rs.getString("nom_cli");
-                registros[2]=rs.getString("ape_cli");  
-                registros[3]=rs.getString("sexo_cli");
-                registros[4]=rs.getString("tel_cli");
-                registros[5]=rs.getString("email_cli");
-                registros[6]=rs.getString("dir_cli");
+                registros[0]=rs.getString("Nit");
+                registros[1]=rs.getString("nombre");
+                registros[2]=rs.getString("comercio");  
+                registros[3]=rs.getString("telefono");
+                registros[4]=rs.getString("direccion");
                 modelo.addRow(registros);
                                 
             }
             tbclientes.setModel(modelo);
             txtcant.setText(""+tbclientes.getRowCount());
         } catch (SQLException ex) {
-            Logger.getLogger(ConsultasClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConsultasDistribuidor.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     
@@ -57,8 +55,7 @@ public class ConsultasClientes extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setResizable(true);
-        setTitle("CONSULTA DE CLIENTES");
+        setTitle("CONSULTA DE DISTRIBUIDORES");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

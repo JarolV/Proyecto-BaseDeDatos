@@ -1,6 +1,6 @@
 package Formulario;
 
-import claseConectar.conectar;
+import BasedeDatos.conectar;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.logging.*;

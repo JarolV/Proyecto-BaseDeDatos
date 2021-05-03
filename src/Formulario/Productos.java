@@ -1,7 +1,7 @@
 
 package Formulario;
 
-import claseConectar.conectar;
+import BasedeDatos.conectar;
 import java.awt.JobAttributes;
 import java.sql.*;
 import java.util.logging.Level;
