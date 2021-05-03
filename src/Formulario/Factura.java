@@ -73,7 +73,7 @@ public class Factura extends javax.swing.JInternalFrame {
     public void calcular(){
         String pre;
         String can;
-        double igv=0;
+        double iva=0;
         double total=0;
         double subtotal=0;
         double precio;
@@ -88,13 +88,13 @@ public class Factura extends javax.swing.JInternalFrame {
             cantidad=Integer.parseInt(can);
             imp=precio*cantidad;
             subtotal=subtotal+imp;
-            igv=subtotal*0.18;
-            total=subtotal+igv;
+            iva=subtotal*0.19;
+            total=subtotal+iva;
             tbdet.setValueAt(Math.rint(imp*100)/100, i, 4);
             
         }
         txtsubtotal.setText(Double.toString(subtotal));
-        txtigv.setText(""+Math.rint(igv*100)/100);
+        txtigv.setText(""+Math.rint(iva*100)/100);
         txttotal.setText(""+Math.rint(total*100)/100);
         
             
@@ -397,7 +397,7 @@ public class Factura extends javax.swing.JInternalFrame {
 
         jLabel18.setText("SubTotal:");
 
-        jLabel19.setText("IGV:");
+        jLabel19.setText("IVA:");
 
         jLabel20.setText("Total:");
 

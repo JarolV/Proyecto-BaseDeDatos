@@ -477,7 +477,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel19">
           <Properties>
-            <Property name="text" type="java.lang.String" value="IGV:"/>
+            <Property name="text" type="java.lang.String" value="IVA:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtigv">
