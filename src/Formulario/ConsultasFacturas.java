@@ -20,7 +20,7 @@ public class ConsultasFacturas extends javax.swing.JInternalFrame {
     void cargartodasfacturas()
     {
         DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"NUMERO","COD. CLIENTE","RUC CLIENTE","SUBTOTAL","IGV","TOTAL","FECHA"};
+        String []titulos={"NUMERO","COD. CLIENTE","SUBTOTAL","TOTAL","FECHA"};
         tabla.setColumnIdentifiers(titulos);
         this.tbfacturas.setModel(tabla);
         String consulta= "SELECT * FROM factura";
@@ -31,12 +31,10 @@ public class ConsultasFacturas extends javax.swing.JInternalFrame {
             while(rs.next())
             {
                 Datos[0]=rs.getString("num_fac");
-                Datos[1]=rs.getString("cod_cli");
-                Datos[2]=rs.getString("ruc_cli");
-                Datos[3]=rs.getString("subtotal");
-                Datos[4]=rs.getString("igv");
-                Datos[5]=rs.getString("total");
-                Datos[6]=rs.getString("fec_fac");
+                Datos[1]=rs.getString("cedula");
+                Datos[2]=rs.getString("subtotal");
+                Datos[3]=rs.getString("total");
+                Datos[4]=rs.getString("fec_fac");
                 
                 tabla.addRow(Datos);
             }
@@ -226,7 +224,7 @@ String fec=""+formatofecha.format(fecha);
         consulta= "SELECT * FROM factura ";
     }
         DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"NUMERO","COD. CLIENTE","RUC CLIENTE","SUBTOTAL","IGV","TOTAL","FECHA"};
+        String []titulos={"NUMERO","COD. CLIENTE","SUBTOTAL","TOTAL","FECHA"};
         tabla.setColumnIdentifiers(titulos);
         this.tbfacturas.setModel(tabla);
         
@@ -237,12 +235,10 @@ String fec=""+formatofecha.format(fecha);
             while(rs.next())
             {
                 Datos[0]=rs.getString("num_fac");
-                Datos[1]=rs.getString("cod_cli");
-                Datos[2]=rs.getString("ruc_cli");
-                Datos[3]=rs.getString("subtotal");
-                Datos[4]=rs.getString("igv");
-                Datos[5]=rs.getString("total");
-                Datos[6]=rs.getString("fec_fac");
+                Datos[1]=rs.getString("cedula");
+                Datos[2]=rs.getString("subtotal");
+                Datos[3]=rs.getString("total");
+                Datos[4]=rs.getString("fec_fac");
                 
                 tabla.addRow(Datos);
             }
