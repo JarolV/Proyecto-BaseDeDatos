@@ -1,6 +1,6 @@
 package Formulario;
 
-import claseConectar.conectar;
+import BasedeDatos.conectar;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,11 +15,11 @@ public class ConsultasProductos extends javax.swing.JInternalFrame {
     void mostrartodosproductos()
     {
         DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"CODIGO","DESCRIPCION","PRECIO"};
+        String []titulos={"CODIGO","DESCRIPCION","PRECIO","CANTIDAD","NIT/CEDULA DISTR","DISTRIBUIDOR","COMERCIO","TEL DISTRIBUIDOR","DIRECCION DISTRIBUIDOR"};
         tabla.setColumnIdentifiers(titulos);
         this.tbproductos.setModel(tabla);
-        String consulta= "SELECT * FROM producto";
-        String []Datos= new String [3];
+        String consulta= "SELECT cod_pro,descripcion,precio,Stock,producto.Nit,nombre,comercio,telefono,direccion FROM producto inner JOIN distribuidores ON distribuidores.Nit=producto.Nit";
+        String []Datos= new String [9];
         try {
             Statement st = cn.createStatement();
             ResultSet rs= st.executeQuery(consulta);
@@ -28,6 +28,12 @@ public class ConsultasProductos extends javax.swing.JInternalFrame {
                 Datos[0]=rs.getString("cod_pro");
                 Datos[1]=rs.getString("descripcion");
                 Datos[2]=rs.getString("precio");
+                Datos[3]=rs.getString("stock");
+                Datos[4]=rs.getString("NIT");
+                Datos[5]=rs.getString("nombre");    
+                Datos[6]=rs.getString("comercio");
+                Datos[7]=rs.getString("telefono");
+                Datos[8]=rs.getString("direccion");
                 tabla.addRow(Datos);
             }
         } catch (SQLException ex) {
@@ -136,8 +142,8 @@ public class ConsultasProductos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                        .addGap(30, 30, 30))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap(24, Short.MAX_VALUE))))
@@ -148,8 +154,8 @@ public class ConsultasProductos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addGap(31, 31, 31))
         );
 
         pack();
@@ -169,14 +175,14 @@ private void rbtntodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
 // TODO add your handling code here:
     String buscar=txtdes.getText();
+    String []titulos={"CODIGO","DESCRIPCION","PRECIO","CANTIDAD","NIT/CEDULA DISTR","DISTRIBUIDOR","COMERCIO","TEL DISTRIBUIDOR","DIRECCION DISTRIBUIDOR"};
     if(rbtndes.isSelected()==true)
     {
          DefaultTableModel tabla= new DefaultTableModel();
-        String []titulos={"CODIGO","DESCRIPCION","PRECIO"};
         tabla.setColumnIdentifiers(titulos);
         this.tbproductos.setModel(tabla);
-        String consulta= "SELECT * FROM producto WHERE descripcion  LIKE '%"+buscar+"%'";
-        String []Datos= new String [3];
+        String consulta= "SELECT cod_pro,descripcion,precio,Stock,producto.Nit,nombre,comercio,telefono,direccion FROM producto inner JOIN distribuidores ON distribuidores.Nit=producto.Nit WHERE descripcion  LIKE '%"+buscar+"%'";
+        String []Datos= new String [9];
         try {
             Statement st = cn.createStatement();
             ResultSet rs= st.executeQuery(consulta);
@@ -185,6 +191,12 @@ private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 Datos[0]=rs.getString("cod_pro");
                 Datos[1]=rs.getString("descripcion");
                 Datos[2]=rs.getString("precio");
+                Datos[3]=rs.getString("stock");
+                Datos[4]=rs.getString("NIT");
+                Datos[5]=rs.getString("nombre");    
+                Datos[6]=rs.getString("comercio");
+                Datos[7]=rs.getString("telefono");
+                Datos[8]=rs.getString("direccion");
                 tabla.addRow(Datos);
             }
         } catch (SQLException ex) {
