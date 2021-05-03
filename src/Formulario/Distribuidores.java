@@ -1,13 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/*
- * clientes.java
- *
- * Created on 09-abr-2013, 18:07:11
- */
 package Formulario;
 
 import BasedeDatos.conectar;
@@ -18,10 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Administrador
- */
+
 public class Distribuidores extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
 

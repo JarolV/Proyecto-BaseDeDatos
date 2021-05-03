@@ -1,3 +1,4 @@
+
 package Formulario;
 
 import BasedeDatos.conectar;
@@ -6,11 +7,11 @@ import java.util.logging.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class IngresoProductos extends javax.swing.JInternalFrame {
+public class IngresoAbastecimiento extends javax.swing.JInternalFrame {
 
     DefaultTableModel model;
     /** Creates new form IngresoProductos */
-    public IngresoProductos() {
+    public IngresoAbastecimiento() {
         initComponents();
          this.setLocation(150,15 );
          bloquear();
@@ -19,48 +20,39 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
      void bloquear(){
     txtcod.setEnabled(false);
     txtdes.setEnabled(false);
-    txtpre.setEnabled(false);
     txtstock.setEnabled(false);
     btnguardar.setEnabled(false);
     btnnuevo.setEnabled(true);
     btncancelar.setEnabled(false);
     btnactualizar.setEnabled(false);
-    btnelegir.setEnabled(false);
-    txtNit.setEnabled(false);
     
     }
     void limpiar(){
     txtcod.setText("");
     txtdes.setText("");
-    txtpre.setText("");
     txtstock.setText("");
-    txtNit.setText("");
     }
     void desbloquear(){
-    txtcod.setEnabled(true);
     txtdes.setEnabled(true);
-    txtpre.setEnabled(true);
     txtstock.setEnabled(true);
     btnguardar.setEnabled(true);
     btnnuevo.setEnabled(false);
     btncancelar.setEnabled(true);
-    btnelegir.setEnabled(true);
     }
     void cargar(String valor) {
         try{
-            String [] titulos={"Codigo","Descripcion","Precio","Stock","Distribuidor(Cedula/Nit)"};
-            String [] registros= new String[5];
+            String [] titulos={"Codigo","Descripcion","Cantidad"};
+            String [] registros= new String[3];
             model=new DefaultTableModel(null,titulos);
             
-            String cons="select * from producto";
+            String cons="select * from reabastecimiento";
             Statement st= cn.createStatement();
             ResultSet rs = st.executeQuery(cons);
             while(rs.next()){
                 registros[0]=rs.getString(1);
                 registros[1]=rs.getString(2);
                 registros[2]=rs.getString(3);
-                registros[3]=rs.getString(4);
-                registros[4]=rs.getString(5);
+          
                 model.addRow(registros);      
                 }
             tbproductos.setModel(model);
@@ -72,25 +64,24 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                  }
      
     }
-        void BuscarProductoEditar(String cod) {
+    public void BuscarProductoEditar(String cod) {
         
         try{
-            String codi="",desc="",prec="",stock="";
-            String cons="select * from producto WHERE cod_pro='"+cod+"'";
+            String codi="",desc="",canti="";
+            String cons="select * from reabastecimiento WHERE cod_reabastecimiento='"+cod+"'";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(cons);
             while(rs.next())
             {
                 codi=rs.getString(1);
                 desc=rs.getString(2);
-                prec=rs.getString(3);
-                stock=rs.getString(4);
+                canti=rs.getString(3);
+               
            
             }
             txtcod.setText(codi);
             txtdes.setText(desc);
-            txtpre.setText(prec);
-            txtstock.setText(stock);
+            txtstock.setText(canti);
             
             }catch(Exception e)
             {
@@ -98,13 +89,13 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             }
      
     }
-        void codigos(){
+    public void codigos(){
            
         int j;
         int cont=1;
         String num="";
         String c="";
-        String SQL="select max(cod_pro) from producto";
+        String SQL="select max(cod_reabastecimiento) from reabastecimiento";
         try {
             Statement st = cn.createStatement();
             ResultSet rs=st.executeQuery(SQL);
@@ -115,7 +106,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             
            
             if(c==null){
-                txtcod.setText("CP0001");
+                txtcod.setText("AB0001");
             }
             else{
                 char r1=c.charAt(2);
@@ -127,7 +118,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                  j=Integer.parseInt(r);
                  GenerarCodigos gen= new GenerarCodigos();
                  gen.generar(j);
-                 txtcod.setText("CP"+gen.serie());
+                 txtcod.setText("AB"+gen.serie());
                 
             
             }
@@ -159,24 +150,15 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
         txtcod = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtdes = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtpre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtstock = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        btnelegir = new javax.swing.JButton();
-        txtNit = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnnuevo = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         btncancelar = new javax.swing.JButton();
-        btnsalir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbproductos = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        txtbuscar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,7 +193,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("REGISTRO DE PRODUCTOS");
+        setTitle("REGISTRAR ABASTECIMIENTO");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de Producto"));
 
@@ -231,34 +213,11 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("Precio:");
-
-        txtpre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtpreActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Stock:");
+        jLabel5.setText("Cantidad:");
 
         txtstock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtstockActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("Distribuidor");
-
-        btnelegir.setText("...");
-        btnelegir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnelegirActionPerformed(evt);
-            }
-        });
-
-        txtNit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNitActionPerformed(evt);
             }
         });
 
@@ -269,24 +228,19 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnelegir)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNit))
-                    .addComponent(txtstock)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtdes, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(txtpre)
                             .addComponent(txtcod))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(24, 24, 24)
+                        .addComponent(txtstock)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -300,19 +254,11 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(txtdes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(txtpre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(btnelegir)
-                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -324,7 +270,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnguardar.setText("Grabar");
+        btnguardar.setText("Guardar");
         btnguardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnguardarActionPerformed(evt);
@@ -345,13 +291,6 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             }
         });
 
-        btnsalir.setText("Salir");
-        btnsalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsalirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -362,8 +301,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                     .addComponent(btnactualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnnuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnguardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btncancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btncancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -377,9 +315,7 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                 .addComponent(btnactualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btncancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnsalir)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         tbproductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -396,21 +332,6 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
         tbproductos.setComponentPopupMenu(jPopupMenu1);
         jScrollPane2.setViewportView(tbproductos);
 
-        jLabel4.setText("Buscar:");
-
-        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbuscarKeyReleased(evt);
-            }
-        });
-
-        jButton1.setText("Mostrar Todo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -422,13 +343,6 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 329, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -437,14 +351,9 @@ public class IngresoProductos extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -456,11 +365,6 @@ private void txtcodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
 // TODO add your handling code here:
     txtcod.transferFocus();
 }//GEN-LAST:event_txtcodActionPerformed
-
-private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
-// TODO add your handling code here:
-    this.dispose();
-}//GEN-LAST:event_btnsalirActionPerformed
 
 private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
 // TODO add your handling code here:
@@ -480,21 +384,6 @@ private void txtdesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
     txtdes.transferFocus();
 }//GEN-LAST:event_txtdesActionPerformed
 
-private void txtpreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpreActionPerformed
-// TODO add your handling code here:
-    txtpre.transferFocus();
-}//GEN-LAST:event_txtpreActionPerformed
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-    cargar("");
-}//GEN-LAST:event_jButton1ActionPerformed
-
-private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
-// TODO add your handling code here:
-    cargar(txtbuscar.getText());
-}//GEN-LAST:event_txtbuscarKeyReleased
-
 private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mneliminarActionPerformed
 // TODO add your handling code here:
        int filasel= tbproductos.getSelectedRow();
@@ -506,7 +395,7 @@ private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
            else
            {
              String  cod=(String)tbproductos.getValueAt(filasel, 0);
-             String eliminarSQL="DELETE FROM producto WHERE cod_pro = '"+cod+"'";
+             String eliminarSQL="DELETE FROM reabastecimiento WHERE cod_reabastecimiento= '"+cod+"'";
              try {
              PreparedStatement pst  = cn.prepareStatement(eliminarSQL);
           pst.executeUpdate();
@@ -525,21 +414,17 @@ private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
 // TODO add your handling code here:
-    String cod,des,pre,stock,Nit;
+    String cod,des,canti;
             String sql="";
             cod=txtcod.getText();
             des=txtdes.getText();
-            pre=txtpre.getText();
-            stock=txtstock.getText();
-            Nit=txtNit.getText();
-            sql="INSERT INTO producto (cod_pro,descripcion,precio,Stock,Nit) VALUES (?,?,?,?,?)";
+            canti=txtstock.getText();
+            sql="INSERT INTO reabastecimiento (cod_reabastecimiento,descripcion,cantidad) VALUES (?,?,?)";
         try {
             PreparedStatement pst  = cn.prepareStatement(sql);
             pst.setString(1, cod);
             pst.setString(2, des);
-            pst.setString(3, pre);
-            pst.setString(4, stock);
-            pst.setString(5,Nit);
+            pst.setString(3, canti);
             int n=pst.executeUpdate();
             if(n>0){
             JOptionPane.showMessageDialog(null, "Registro Guardado con Exito");
@@ -547,7 +432,7 @@ private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             }
             cargar("");
         } catch (SQLException ex) {
-            Logger.getLogger(IngresoProductos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IngresoAbastecimiento.class.getName()).log(Level.SEVERE, null, ex);
         }
 }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -574,7 +459,7 @@ private void mnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
 // TODO add your handling code here:
-     String sql="UPDATE producto SET precio = '"+txtpre.getText()+"',descripcion ='"+txtdes.getText()+"',Stock = '"+txtstock.getText()+"' WHERE cod_pro = '"+txtcod.getText()+"'"; 
+     String sql="UPDATE reabastecimiento SET descripcion ='"+txtdes.getText()+"',cantidad = '"+txtstock.getText()+"' WHERE cod_reabastecimiento  = '"+txtcod.getText()+"'"; 
     try {
         PreparedStatement pst = cn.prepareStatement(sql);
         pst.executeUpdate();
@@ -591,32 +476,15 @@ private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
 }//GEN-LAST:event_txtstockActionPerformed
 
-    private void btnelegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnelegirActionPerformed
-    Distribuidores dis = new Distribuidores();
-    Principal.jdpescritorio.add(dis);
-    dis.toFront();
-    dis.setVisible(true);  
-    }//GEN-LAST:event_btnelegirActionPerformed
-
-    private void txtNitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNitActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnactualizar;
     private javax.swing.JButton btncancelar;
-    private javax.swing.JButton btnelegir;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnnuevo;
-    private javax.swing.JButton btnsalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
@@ -626,11 +494,8 @@ private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JMenuItem mnactualizar;
     private javax.swing.JMenuItem mneliminar;
     private javax.swing.JTable tbproductos;
-    public static javax.swing.JTextField txtNit;
-    private javax.swing.JTextField txtbuscar;
     private javax.swing.JTextField txtcod;
     private javax.swing.JTextField txtdes;
-    private javax.swing.JTextField txtpre;
     private javax.swing.JTextField txtstock;
     // End of variables declaration//GEN-END:variables
    conectar cc= new conectar();
