@@ -10,14 +10,6 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="mnver">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ver Detalle"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnverActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="mneliminar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar"/>

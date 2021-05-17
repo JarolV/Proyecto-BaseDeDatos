@@ -61,7 +61,7 @@ public class IngresoAbastecimiento extends javax.swing.JInternalFrame {
             tbproductos.getColumnModel().getColumn(2).setPreferredWidth(100);
             }catch(Exception e){
                 System.out.println(e.getMessage());
-                 }
+            }
      
     }
     public void BuscarProductoEditar(String cod) {
@@ -76,15 +76,12 @@ public class IngresoAbastecimiento extends javax.swing.JInternalFrame {
                 codi=rs.getString(1);
                 desc=rs.getString(2);
                 canti=rs.getString(3);
-               
-           
             }
             txtcod.setText(codi);
             txtdes.setText(desc);
             txtstock.setText(canti);
             
-            }catch(Exception e)
-            {
+            }catch(Exception e){
             System.out.println(e.getMessage());
             }
      
@@ -371,7 +368,7 @@ private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     desbloquear();
     limpiar();
     txtcod.requestFocus();
-   codigos();
+    codigos();
 }//GEN-LAST:event_btnnuevoActionPerformed
 
 private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
@@ -459,7 +456,7 @@ private void mnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
 // TODO add your handling code here:
-     String sql="UPDATE reabastecimiento SET descripcion ='"+txtdes.getText()+"',cantidad = '"+txtstock.getText()+"' WHERE cod_reabastecimiento  = '"+txtcod.getText()+"'"; 
+    String sql="UPDATE reabastecimiento SET descripcion ='"+txtdes.getText()+"',cantidad = '"+txtstock.getText()+"' WHERE cod_reabastecimiento  = '"+txtcod.getText()+"'"; 
     try {
         PreparedStatement pst = cn.prepareStatement(sql);
         pst.executeUpdate();

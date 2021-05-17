@@ -78,8 +78,7 @@ public class Factura extends javax.swing.JInternalFrame {
         double subtotal=0;
         double precio;
         int cantidad;
-        double imp=0.0;
-        
+        double imp=0.0;        
         for(int i=0;i<tbdet.getRowCount();i++)
         {
             pre=tbdet.getValueAt(i,2).toString();
@@ -125,30 +124,7 @@ public class Factura extends javax.swing.JInternalFrame {
             Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    void detallefactura(){
-        for(int i=0;i<tbdet.getRowCount();i++)
-        {
-        String InsertarSQL="INSERT INTO detallefactura(num_fac,cod_pro,des_pro,cant_pro,pre_unit,pre_tot) VALUES (?,?,?,?,?,?)";
-        String numfac=txtfac.getText();
-        String codpro=tbdet.getValueAt(i, 0).toString();
-        String despro=tbdet.getValueAt(i, 1).toString();
-        String preunit=tbdet.getValueAt(i, 2).toString();
-        String cantpro=tbdet.getValueAt(i, 3).toString();
-        String importe=tbdet.getValueAt(i, 4).toString();
-    
-        try {
-            PreparedStatement pst = cn.prepareStatement(InsertarSQL);
-            pst.setString(1,numfac);
-            pst.setString(2,codpro);
-            pst.setString(3,despro);
-            pst.setString(4,cantpro);
-            pst.setString(5,preunit);
-            pst.setString(6,importe);
-            pst.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(Factura.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }}
+
  
   
 
@@ -600,9 +576,9 @@ private void btnproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 // TODO add your handling code here:
     try {
           Productos pro= new Productos();
-    Principal.jdpescritorio.add(pro);
-    pro.toFront();
-    pro.setVisible(true);
+            Principal.jdpescritorio.add(pro);
+            pro.toFront();
+            pro.setVisible(true);
         
     } catch (Exception e) {
     }
@@ -654,7 +630,6 @@ private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
       }
     factura();
-    detallefactura();
     
         txtcod.setText("");
         txtnomape.setText("");

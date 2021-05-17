@@ -28,7 +28,6 @@ public class ConsultasAbastecimiento extends javax.swing.JInternalFrame {
                 Datos[0]=rs.getString("cod_reabastecimiento");
                 Datos[1]=rs.getString("descripcion");
                 Datos[2]=rs.getString("cantidad");
-                
                 tabla.addRow(Datos);
             }
         } catch (SQLException ex) {

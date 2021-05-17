@@ -54,7 +54,6 @@ public class ConsultasFacturas extends javax.swing.JInternalFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        mnver = new javax.swing.JMenuItem();
         mneliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         rdbnnumero = new javax.swing.JRadioButton();
@@ -65,14 +64,6 @@ public class ConsultasFacturas extends javax.swing.JInternalFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbfacturas = new javax.swing.JTable();
-
-        mnver.setText("Ver Detalle");
-        mnver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnverActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(mnver);
 
         mneliminar.setText("Eliminar");
         mneliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -196,8 +187,7 @@ public class ConsultasFacturas extends javax.swing.JInternalFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-674)/2, (screenSize.height-308)/2, 674, 308);
+        setBounds(0, 0, 674, 308);
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnbuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscadorActionPerformed
@@ -289,62 +279,6 @@ private void rdbntodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     
 }//GEN-LAST:event_rdbntodosActionPerformed
 
-private void mnverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnverActionPerformed
-// TODO add your handling code here:
-    int filasele= tbfacturas.getSelectedRow();
-    if(filasele==-1)
-    {
-        JOptionPane.showMessageDialog(null, "No Seleciono ninguna fila");
-    }
-    else
-    {
-           DetalleFactura detalle = new DetalleFactura();
-    Principal.jdpescritorio.add(detalle);
-    detalle.toFront();
-    detalle.setVisible(true);
-        String numfac=tbfacturas.getValueAt(filasele, 0).toString();
-        String cod=tbfacturas.getValueAt(filasele, 1).toString();
-        String ruc=tbfacturas.getValueAt(filasele, 2).toString();
-        String subtotal=tbfacturas.getValueAt(filasele, 3).toString();
-        String igv=tbfacturas.getValueAt(filasele, 4).toString();
-        String total=tbfacturas.getValueAt(filasele, 5).toString();
-        String fecha=tbfacturas.getValueAt(filasele, 6).toString();
-        DetalleFactura.txtfac.setText(numfac);
-        DetalleFactura.txtcod.setText(cod);
-        DetalleFactura.txtruc.setText(ruc);
-        DetalleFactura.txtsub.setText(subtotal);
-        DetalleFactura.txtigv.setText(igv);
-        DetalleFactura.txttot.setText(total);
-        DetalleFactura.txtfecha.setText(fecha);
-        DefaultTableModel model = (DefaultTableModel) DetalleFactura.tbdetalle.getModel();
-        String ver="SELECT * FROM detallefactura WHERE num_fac='"+numfac+"'";
-        String []datos= new String[5]   ;
-        try {
-                Statement st = cn.createStatement();
-                ResultSet rs= st.executeQuery(ver);
-                while(rs.next())
-                {
-                    datos[0]=rs.getString("cod_pro");
-                    datos[1]=rs.getString("des_pro");
-                    datos[2]=rs.getString("cant_pro");
-                    datos[3]=rs.getString("pre_unit");
-                    datos[4]=rs.getString("pre_tot");
-                    model.addRow(datos);
-                    
-                }
-                DetalleFactura.tbdetalle.setModel(model);
-            } catch (SQLException ex) {
-                Logger.getLogger(ConsultasFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
-        
-        
-        
-  
-    }
-}//GEN-LAST:event_mnverActionPerformed
-
 private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mneliminarActionPerformed
 // TODO add your handling code here:
         int fila=tbfacturas.getSelectedRow();
@@ -375,7 +309,6 @@ private void mneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mneliminar;
-    private javax.swing.JMenuItem mnver;
     private javax.swing.JRadioButton rdbbnfecha;
     private javax.swing.JRadioButton rdbnnumero;
     private javax.swing.JRadioButton rdbntodos;
