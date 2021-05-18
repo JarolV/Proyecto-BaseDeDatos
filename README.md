@@ -1,4 +1,3 @@
-# Proyecto-BaseDeDatos
 Manual de usuario de proyecto de base de datos 
 DistriClean
 
@@ -13,4 +12,7 @@ Dentro del siguiente repositorio se encuentra los archivos necesarios para la ej
 Para importar las librerías simplemente se abre el proyecto en netbeans y en “librerías” le damos clik derecho y “agregar librería” despues al boton “crear” posteriormente a la opción “ok” seleccionamos los archivos que son de tipo ejecutable Jar File que se encuentran dentro de la carpeta del proyecto.
 
 
-Tendremos que importar la base de datos al gestor de bases de datos XAMP, cabe recalcar que el archivo de la base de datos  se encuentra alojada en la carpeta del proyecto. Posteriormente, activaremos la opción de apache mySQL en el XAMP 
+Tendremos que importar la base de datos al gestor de bases de datos XAMP, cabe recalcar que el archivo de la base de datos  se encuentra alojada en la carpeta del proyecto. Posteriormente, activaremos la opción de apache mySQL en el XAMP. 
+
+Después de los anteriores puntos, podremos ejecutar el proyecto, dirigiéndonos a la clase principal.java, de ahí solo ejecutaremos el código y podremos acceder a la opciones del app. 
+
